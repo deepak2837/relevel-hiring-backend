@@ -33,7 +33,9 @@ try{ const user = await admin(data)
         const user = await student(data)
         await user.save()
         const token = jwt.sign({role:role,user:user._id},"secret")
-        res.status(200).send({user,token});
+        const userObj = user.toObject(); // convert to plain JS object
+  delete userObj.password;
+        res.status(200).send({userObj,token});
 
     }
     if (role=="company"){

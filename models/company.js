@@ -15,7 +15,8 @@ const companySchema = new mongoose.Schema({
     ,
     role:{
         type: String,
-        defaultValue: 'company'
+        default: 'company',
+        
     },
     companyemail:{
         type: String,
@@ -28,7 +29,8 @@ const companySchema = new mongoose.Schema({
     },
     email:{
         type: String,
-        required: true
+        required: true,
+        unique: true
     },
     password:{
         type: String,

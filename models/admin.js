@@ -9,7 +9,7 @@ const adminSchema = new mongoose.Schema({
     },
     role:{
         type: String,
-        defaultValue: 'admin'
+        default: 'admin'
     },
     phone:{
         type: Number,
@@ -17,7 +17,8 @@ const adminSchema = new mongoose.Schema({
     },
     email:{
         type: String,
-        required: true
+        required: true,
+        unique: true,
     },
     password:{
         type: String,

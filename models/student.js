@@ -1,15 +1,12 @@
-//here i will write the model fopr student who is appling for the company job and
-
-
 import mongoose from 'mongoose';
 const studentSchema = new mongoose.Schema({
     name:{
         type: String,
-       trim:true,
+        trim:true,
     },
     role:{
         type: String,
-        defaultValue: 'Student'
+        default: 'student'
     },
     phone:{
         type: Number,
@@ -18,6 +15,8 @@ const studentSchema = new mongoose.Schema({
     email:{
         type: String,
         required: true
+        ,
+        unique: true
     },
     password:{
         type: String,
