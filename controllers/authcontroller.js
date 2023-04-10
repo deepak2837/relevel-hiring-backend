@@ -7,10 +7,25 @@ import bcrypt from "bcryptjs";
 
 
 export const signUp = async(req,res) => {
+
     const data  = req.body;
     data.password = await bcrypt.hash(data.password, 12);
     
     const role = req.params.role;
+
+    if(data.email){
+        const checkEmailInStudent  = await student.find({email: data.email})
+        const checkEmailInAdmin = await student.find({email: data.email})
+        const checkEmailInCompany = await student.find({email: data.email})
+        if(checkEmailInStudent.length > 0 || checkEmailInAdmin.length > 0 || checkEmailInCompany.length > 0){
+            res.send("email already exists").status(400)
+            return;
+        }
+
+    }else{
+        res.send("please send the wmail for signing up ").status(400)
+    return;
+    }
     if (role == "admin"){
 console.log("hitting admin")
 try{ const user = await admin(data)
@@ -50,5 +65,25 @@ try{ const user = await admin(data)
 
 }
 export const signIn = async (req, res) =>{
-    console.log("hitting signup")
+    console.log("hitting signin")
+    const {email, password} = req.body;
+  
+    const role = req.params.role;
+    
+    if (role == "admin"){
+        const user = await admin.findOne({email: email})
+        console.log(user)
+        if(!user){
+            res.status(400).send("user not found")
+        }else{
+            const verification = await bcrypt.compare(password, user.password)
+            if(verification){
+                const token = jwt.sign({role:role,user:user._id},"secret")
+                res.status(200).send({user,token});
+            }else{
+                res.status(400).send("wrong password")
+            }
+        }
+    }
+    
 }
