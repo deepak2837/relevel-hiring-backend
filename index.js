@@ -4,6 +4,8 @@ import { Router } from 'express';
 import mongoose from 'mongoose';
 
 import authrouter from './routes/authrouter.js';
+
+import jobrouter from './routes/jobrouter.js';
 const router = Router()
 
 const app = express();
@@ -19,6 +21,7 @@ mongoose.connect('mongodb://localhost:27017/relevel-hiring-backend', { useNewUrl
         res.send('Hello World');
     }   );
 app.use('/users', authrouter);
+app.use('/job', jobrouter);
 
 
 app.listen(8000, () => console.log('Server running on port 8000'));
