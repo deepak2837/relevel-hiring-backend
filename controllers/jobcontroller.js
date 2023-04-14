@@ -51,6 +51,26 @@ export const getjobbycompanyid = async(req,res) => {
         res.status(400).send("error occured");
     }
 }
-export const applyjob = async(req,res) => {
-    
-}
+
+
+
+export const  applyjob = async(req,res) => {
+    console.log(req.user.role);
+    console.log(constants.STUDENT);
+    if (req.user.role == constants.STUDENT){
+        try{
+            console.log("hit")
+            const job = await jobs.findById(req.params.id);
+            console.log(job)
+            job.appplicants.push(req.user.user);
+            console.log(job)
+            job.save();
+            res.status(200).send(job);
+        }
+        catch (error) {
+            console.error(error);
+            res.status(400).send("error occurred");
+          }
+    }
+ 
+}   
